@@ -58,11 +58,11 @@ function updateDurations() {
     
     durationElements.forEach(element => {
         const startDate = new Date(element.getAttribute('data-start'));
-        const currentDate = new Date();
+        const endDate = element.getAttribute('data-end') ? new Date(element.getAttribute('data-end')) : new Date();
         
         // Calculate the difference in months
-        const months = (currentDate.getFullYear() - startDate.getFullYear()) * 12 +
-                       (currentDate.getMonth() - startDate.getMonth());
+        const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+                       (endDate.getMonth() - startDate.getMonth());
         
         // Format the duration
         let durationText;
