@@ -52,6 +52,46 @@ if (contactForm) {
 /* Dynamic Year (Functionality) */
 document.getElementById('year').textContent = new Date().getFullYear();
 
+/* Dynamic Duration Calculation */
+function updateDurations() {
+    const durationElements = document.querySelectorAll('.duration[data-start]');
+    
+    durationElements.forEach(element => {
+        const startDate = new Date(element.getAttribute('data-start'));
+        const currentDate = new Date();
+        
+        // Calculate the difference in months
+        const months = (currentDate.getFullYear() - startDate.getFullYear()) * 12 +
+                       (currentDate.getMonth() - startDate.getMonth());
+        
+        // Format the duration
+        let durationText;
+        if (months < 1) {
+            durationText = '< 1 mo';
+        } else if (months === 1) {
+            durationText = '1 mo';
+        } else if (months < 12) {
+            durationText = `${months} mos`;
+        } else {
+            const years = Math.floor(months / 12);
+            const remainingMonths = months % 12;
+            if (remainingMonths === 0) {
+                durationText = `${years} yr${years > 1 ? 's' : ''}`;
+            } else {
+                durationText = `${years} yr${years > 1 ? 's' : ''} ${remainingMonths} mos`;
+            }
+        }
+        
+        // Update the element text, preserving the date range
+        const originalText = element.textContent;
+        const dateRange = originalText.split(' ·')[0];
+        element.textContent = `${dateRange} · ${durationText}`;
+    });
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', updateDurations);
+
 let menuToggle = document.querySelector('.menu-toggle');
 let sidebar = document.querySelector('.sidebar');
 let navLinks = document.querySelectorAll('.nav-links a');
